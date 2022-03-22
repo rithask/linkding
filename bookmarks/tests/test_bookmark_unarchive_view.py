@@ -33,3 +33,12 @@ class BookmarkUnarchiveViewTestCase(TestCase, BookmarkFactoryMixin):
         )
 
         self.assertRedirects(response, reverse('bookmarks:close'))
+
+    def test_should_not_redirect_to_external_url(self):
+        bookmark = self.setup_bookmark()
+
+        response = self.client.get(
+            reverse('bookmarks:unarchive', args=[bookmark.id]) + '?return_url=https://example.com'
+        )
+
+        self.assertRedirects(response, reverse('bookmarks:archived'))
