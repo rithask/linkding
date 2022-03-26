@@ -53,3 +53,8 @@ class BookmarkArchiveViewTestCase(TestCase, BookmarkFactoryMixin):
         )
 
         self.assertRedirects(response, reverse('bookmarks:index'))
+
+    def test_should_show_link_for_untagged_bookmarks(self):
+        response = self.client.get(reverse('bookmarks:index'))
+
+        self.assertContains(response, '<a href="?q=!untagged" class="text-gray text-sm">Show Untagged</a>')
